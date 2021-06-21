@@ -40,17 +40,16 @@ The two lists do not intersect, so return null.
 
 ### Constraints:
 
-<li> The number of nodes of `listA` is in the m.
-<li> The number of nodes of `listB` is in the n.
-<li> 0 <= m, n <= 3 * 104
-<li> 1 <= `Node.val` <= 105
-<li> 0 <= skipA <= m
-<li> 0 <= skipB <= n
-<li> intersectVal is 0 if `listA` and `listB` do not intersect.
-<li> intersectVal == listA[skipA + 1] == listB[skipB + 1] if listA and listB intersect.
+<li> The number of nodes of `listA` is in the m. </li>
+<li> The number of nodes of `listB` is in the n. </li>
+<li> 0 <= m, n <= 3 * 104 </li>
+<li> 1 <= `Node.val` <= 105 </li>
+<li> 0 <= skipA <= m </li>
+<li> 0 <= skipB <= n </li>
+<li> intersectVal is 0 if `listA` and `listB` do not intersect. </li>
+<li> intersectVal == listA[skipA + 1] == listB[skipB + 1] if listA and listB intersect. </li>
  
 
-Follow up: Could you write a solution that runs in O(n) time and use only O(1) memory?
 ```java
 /**
  * Definition for singly-linked list.
@@ -104,3 +103,53 @@ public class Solution {
     }
 }
 ```
+
+### Follow up: Could you write a solution that runs in O(n) time and use only O(1) memory?
+As the lists are the same after intersection. 
+-> Make the length of the two lists equal first.
+-> Compare for a matched node.
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null)
+          return null;
+        int m = length(headA);
+        int n = length(headB);
+        
+        while(m > n) { //list A is longer than list B;
+            headA = headA.next;
+            m--;
+        }
+        while(n > m) { //list B is longer than list A;
+            headB = headB.next;
+            n--;
+        }
+ 
+        while(headA != headB) {
+            headA = headA.next;
+            headB = headB.next;
+        }
+        return headA;
+    }
+   private int length(ListNode head) {
+       int length = 0;
+       while(head!=null){
+          length++;
+          head = head.next;
+       }
+       return length;
+   }
+}
+```
+
