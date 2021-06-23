@@ -36,6 +36,46 @@ You must write an algorithm with O(log n) runtime complexity.
 ```java
 class Solution {
     public int[] searchRange(int[] nums, int target) {
+        int range[] = new int[2];
+        range[0] = -1;
+        range[1] = -1;
+        if(nums.length < 1){
+            return range;
+        }
+        
+        int left = 0, right = nums.length-1;
+        
+        while(left < right) {
+         int mid = left + (right - left)/2;
+         if(nums[mid] < target)
+             left = mid+1;
+         else 
+             right = mid;
+        }
+        
+        if(nums[left]!=target)
+         return range;
+        range[0] = left;
+        
+        right = nums.length-1;
+        while(left < right){
+         int mid = left + (right - left)/2 + 1; //biasing search to the right.
+         if(nums[mid] > target)
+             right = mid-1;
+         else 
+             left = mid;
+        }
+        range[1] = right;
+        return range;
+    }
+}
+
+```
+
+```java
+//Accepted. But - worse case scenario the code would be O(n) if all numbers in the array are target.
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
         int left = 0, right = nums.length - 1;
         int range[] = new int[2];
         range[0] = -1;
